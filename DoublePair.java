@@ -16,13 +16,13 @@ import org.apache.hadoop.io.Writable;
 
 public class DoublePair implements Writable {
     // Declare any variables here
-
+    private double one;
+    private double two;
     /**
      * Constructs a DoublePair with both doubles set to zero.
      */
     public DoublePair() {
         // YOUR CODE HERE
-
     }
 
     /**
@@ -30,7 +30,8 @@ public class DoublePair implements Writable {
      */ 
     public DoublePair(double double1, double double2) {
         // YOUR CODE HERE
-
+	one = double1;
+	two = double2;
     }
 
     /**
@@ -38,6 +39,7 @@ public class DoublePair implements Writable {
      */
     public double getDouble1() {
         // YOUR CODE HERE
+	return one;
         
     }
 
@@ -46,7 +48,7 @@ public class DoublePair implements Writable {
      */
     public double getDouble2() {
         // YOUR CODE HERE
-        
+        return two;
     }
 
     /**
@@ -54,7 +56,7 @@ public class DoublePair implements Writable {
      */
     public void setDouble1(double val) {
         // YOUR CODE HERE
-
+	one = val;
     }
 
     /**
@@ -62,7 +64,7 @@ public class DoublePair implements Writable {
      */
     public void setDouble2(double val) {
         // YOUR CODE HERE
-
+	two = val;
     }
 
     /**
@@ -70,7 +72,8 @@ public class DoublePair implements Writable {
      */
     public void write(DataOutput out) throws IOException {
         // YOUR CODE HERE
-
+	out.writeDouble(one);
+	out.writeDouble(two);
     }
 
     /**
@@ -78,6 +81,7 @@ public class DoublePair implements Writable {
      */
     public void readFields(DataInput in) throws IOException {
         // YOUR CODE HERE
-
+	one = readDouble();
+	two = readDouble();
     }
 }
