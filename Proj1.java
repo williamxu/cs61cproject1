@@ -33,7 +33,7 @@ public class Proj1 {
 	 * Inputs is a set of (docID, document contents) pairs.
 	 */
 	public static class Map1 extends
-			Mapper<WritableComparable, Text, Text, Text> {
+			Mapper<WritableComparable, Text, Text, DoublePair> {
 		/** Regex pattern to find words (alphanumeric + _). */
 		final static Pattern WORD_PATTERN = Pattern.compile("\\w+");
 
@@ -161,7 +161,7 @@ public class Proj1 {
 				sum += d.getDouble2();
 			}
 			if (sum == 0) context.write(new DoubleWritable(0), key);
-			else context.write(new DoubleWritable(sum * Math.pow(Math.log(sum),3)/count));
+			else context.write(new DoubleWritable(sum * Math.pow(Math.log(sum),3)/count), key);
 		}
 	}
 
