@@ -81,7 +81,7 @@ public class DoublePair implements Writable {
      */
     public void readFields(DataInput in) throws IOException {
         // YOUR CODE HERE
-	one = readDouble();
-	two = readDouble();
+	one = in.readDouble();
+	two = in.readDouble();
     }
 }
