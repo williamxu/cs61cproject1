@@ -306,6 +306,3 @@ public class Proj1 {
 			secondJob.waitForCompletion(true);
 		}
 	}
-
-}
-
