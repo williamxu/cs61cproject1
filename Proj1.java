@@ -68,29 +68,37 @@ public class Proj1 {
 			while (matcher.find()) {
 				String s = matcher.group().toLowerCase();
 				words.add(s);
+			}
+			if (!words.contains(targetGram)) {
+				for (int i = 0; i < words.size(); i++) {
+					String current = words.get(i);
+					context.write(
+							new Text(current),
+							new DoublePair(1.0, func
+									.f(Double.POSITIVE_INFINITY)));
 				}
-			double d = 0.0;
-			for (int i = 0; i < words.size(); i++) {
-				String current = words.get(i);
-				if (current != targetGram) {
-					int before = words.subList(0, i).lastIndexOf(targetGram);
-					int after = words.subList(i+1, words.size()).indexOf(targetGram);
-					if (before == -1 && after == -1){
-						d = Double.POSITIVE_INFINITY;
+			} else {
+				double d = 0.0;
+				for (int i = 0; i < words.size(); i++) {
+					String current = words.get(i);
+					if (current != targetGram) {
+						int before = words.subList(0, i)
+								.lastIndexOf(targetGram);
+						int after = words.subList(i + 1, words.size()).indexOf(
+								targetGram);
+						if (before == -1) {
+							d = after - i;
+						} else if (after == -1) {
+							d = i - before;
+						} else {
+							d = Math.min(i - before, after - i);
+						}
+						context.write(new Text(current), new DoublePair(1.0,
+								func.f(d)));
 					}
-					else if (before == -1) {
-						d = after - i;
-					}
-					else if (after == -1){
-						d = i - before;
-					}
-					else {
-						d = Math.min(i-before, after-i);
-					}
-					context.write(new Text(current), new DoublePair(1.0, func.f(d)));
 				}
 			}
-		
+
 		}
 
 		/** Returns the Func corresponding to FUNCNUM */
@@ -129,11 +137,12 @@ public class Proj1 {
 	 * Here's where you'll be implementing your combiner. It must be non-trivial
 	 * for you to receive credit.
 	 */
-	public static class Combine1 extends Reducer<Text, DoublePair, Text, DoublePair> {
+	public static class Combine1 extends
+			Reducer<Text, DoublePair, Text, DoublePair> {
 
 		@Override
-		public void reduce(Text key, Iterable<DoublePair> values, Context context)
-				throws IOException, InterruptedException {
+		public void reduce(Text key, Iterable<DoublePair> values,
+				Context context) throws IOException, InterruptedException {
 
 			double count = 0;
 			double sum = 0;
@@ -149,8 +158,8 @@ public class Proj1 {
 	public static class Reduce1 extends
 			Reducer<Text, DoublePair, DoubleWritable, Text> {
 		@Override
-		public void reduce(Text key, Iterable<DoublePair> values, Context context)
-				throws IOException, InterruptedException {
+		public void reduce(Text key, Iterable<DoublePair> values,
+				Context context) throws IOException, InterruptedException {
 
 			// YOUR CODE HERE
 			double count = 0;
@@ -160,8 +169,12 @@ public class Proj1 {
 				count += d.getDouble1();
 				sum += d.getDouble2();
 			}
-			if (sum == 0) context.write(new DoubleWritable(0), key);
-			else context.write(new DoubleWritable(sum * Math.pow(Math.log(sum),3)/count), key);
+			if (sum == 0)
+				context.write(new DoubleWritable(0), key);
+			else
+				context.write(
+						new DoubleWritable(sum * Math.pow(Math.log(sum), 3)
+								/ count), key);
 		}
 	}
 
