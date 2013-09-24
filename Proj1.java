@@ -164,7 +164,6 @@ public class Proj1 {
 			// YOUR CODE HERE
 			double count = 0;
 			double sum = 0;
-			// YOUR CODE HERE
 			for (DoublePair d : values) {
 				count += d.getDouble1();
 				sum += d.getDouble2();
@@ -173,7 +172,7 @@ public class Proj1 {
 				context.write(new DoubleWritable(0), key);
 			else
 				context.write(
-						new DoubleWritable(sum * Math.pow(Math.log(sum), 3)
+						new DoubleWritable(-sum * Math.pow(Math.log(sum), 3)
 								/ count), key);
 		}
 	}
@@ -210,7 +209,12 @@ public class Proj1 {
 				Context context) throws IOException, InterruptedException {
 
 			// YOUR CODE HERE
-
+		    for (Text v: values) { 
+			if (n < N_TO_OUTPUT) {
+			    context.write(new DoubleWritable(Math.abs(key.get())), v);
+			}      
+			n++;
+		    }	
 		}
 	}
 
