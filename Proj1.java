@@ -74,29 +74,29 @@ public class Proj1 {
 					String current = words.get(i);
 					context.write(
 							new Text(current),
-							new DoublePair(1.0, func
-									.f(Double.POSITIVE_INFINITY)));
+							new DoublePair(1.0, func.f(Double.POSITIVE_INFINITY)));
 				}
-			} else {
+			} else {			    
+			    for (int i = 0; i < words.size(); i++) {
+				String current = words.get(i);
 				double d = 0.0;
-				for (int i = 0; i < words.size(); i++) {
-					String current = words.get(i);
-					if (current != targetGram) {
-						int before = words.subList(0, i)
-								.lastIndexOf(targetGram);
-						int after = words.subList(i + 1, words.size()).indexOf(
-								targetGram);
-						if (before == -1) {
-							d = after - i;
-						} else if (after == -1) {
-							d = i - before;
-						} else {
-							d = Math.min(i - before, after - i);
-						}
-						context.write(new Text(current), new DoublePair(1.0,
-								func.f(d)));
-					}
+				if (!current.equals(targetGram)) {
+				    int before = words.subList(0, i)
+					.lastIndexOf(targetGram);
+				    int after = words.subList(i, words.size()).indexOf(
+										       targetGram);
+				    if (before == -1) {
+					d = after;
+				    } else if (after == -1) {
+					d = i - before;
+				    } else {
+					d = Math.min(i - before, after);
+				    }
+				    
+				    context.write(new Text(current), new DoublePair(1.0,
+										    func.f(d)));
 				}
+			    }
 			}
 
 		}
@@ -168,12 +168,13 @@ public class Proj1 {
 				count += d.getDouble1();
 				sum += d.getDouble2();
 			}
-			if (sum == 0)
-				context.write(new DoubleWritable(0), key);
-			else
-				context.write(
-						new DoubleWritable(-sum * Math.pow(Math.log(sum), 3)
-								/ count), key);
+			if (sum <= 0)
+				context.write(new DoubleWritable(0.0), key);
+			else {
+			     context.write(
+					   new DoubleWritable(-sum * Math.pow(Math.log(sum), 3)
+							      / count), key);
+			}
 		}
 	}
 
@@ -209,12 +210,12 @@ public class Proj1 {
 				Context context) throws IOException, InterruptedException {
 
 			// YOUR CODE HERE
-		    for (Text v: values) { 
-			if (n < N_TO_OUTPUT) {
-			    context.write(new DoubleWritable(Math.abs(key.get())), v);
-			}      
-			n++;
-		    }	
+			for (Text v : values) {
+				if (n < N_TO_OUTPUT) {
+					context.write(new DoubleWritable(Math.abs(key.get())), v);
+				}
+				n++;
+			}
 		}
 	}
 

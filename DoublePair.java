@@ -23,6 +23,8 @@ public class DoublePair implements Writable {
      */
     public DoublePair() {
         // YOUR CODE HERE
+    	one = 0.0;
+    	two = 0.0;
     }
 
     /**
