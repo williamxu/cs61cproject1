@@ -1,0 +1,13 @@
+1. For job 1 (freedom-0, combiner off, 2005 dataset) it took 12:19 minutes total. There were 112 map tasks and 33 reduce tasks total. (40 mappers and 20 reducers?)
+For job 2 (freedom-0, combiner on) it took 4:53 minutes total. Same number of map and reduce tasks as above.
+For job 3 (capital-0, combiner on, 2006 dataset) it took 14:34 minutes total. There were 348 map tasks and 33 reduce tasks total. (40 mappers/20 reducers)
+For job 4 (capital-0, combiner on, 2006 dataset) it took 8:28 minutes total. Same amount of tasks, but used 64 mappers and 32 reducers.
+For job 5 (landmark-1) it took 8:10 minutes total. Same amount of tasks and mappers/reducers as above.
+For job 6 (monument-2) it took 8:11 minutes total. Same amount of tasks and mappers/reducers as above.
+
+2. With the combiner turned on, the task was 152% faster.
+
+3. For 5 workers, it was 0.0219 GB/s, or 21.9 MB/s. For 9 workers, it was 0.0386 GB/s, or 38.6 MB/s.
+4. It was faster by 72%. Assuming it would be fully parallelizable, it should be 100% faster (went from 4 worker nodes to 8). Pretty well; a 72% increase in speed is extremely good for large sets of data.
+5. $0.00736 per GB for 5 workers, $0.00417 per GB for 9 workers.
+6. $3.48, but I might have used more money because I had a few times when ec2 only started up 1/9 servers before I disconnected from my session.
